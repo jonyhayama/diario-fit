@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     end
   end
 
+  post 'refresh', controller: :refresh, action: :create
   post 'signin', to: 'signin#create'
   delete 'signin', to: 'signin#destroy'
 end
