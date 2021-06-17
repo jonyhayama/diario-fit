@@ -35,11 +35,23 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String,
   },
+  async mounted() {
+    console.log('mounted');
+    const url = (process.env.NODE_ENV === 'production') ? '/' : 'http://localhost:3000';
+    try {
+      const res = await axios.get(url);
+      console.log('hooray', process.env.NODE_ENV, url, res.data);
+    } catch( e ){
+      console.log('oh no', e);
+    }
+  }
 };
 </script>
 
