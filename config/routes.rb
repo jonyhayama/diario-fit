@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   post 'signup', controller: :signup, action: :create
   post 'signin', to: 'signin#create'
   delete 'signin', to: 'signin#destroy'
+
+  get '/*path', to: 'static_pages#index'
 end
