@@ -44,7 +44,7 @@ export default {
   },
   async mounted() {
     console.log('mounted');
-    const url = (process.env.NODE_ENV === 'production') ? '/' : 'http://localhost:3000';
+    const url = (process.env.NODE_ENV === 'production') ? '/api' : 'http://localhost:3000/api';
     try {
       const res = await axios.get(url);
       console.log('hooray', process.env.NODE_ENV, url, res.data);
