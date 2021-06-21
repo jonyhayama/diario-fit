@@ -1,4 +1,4 @@
-class SigninController < ApplicationController
+class Api::SigninController < ApplicationController
   before_action :authorize_access_request!, only: [:destroy]
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
