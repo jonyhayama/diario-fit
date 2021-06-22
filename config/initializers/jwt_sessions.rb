@@ -4,4 +4,4 @@ JWTSessions.access_exp_time = 1 * 60 * 60 # 1 hours
 # maximum session duration
 JWTSessions.refresh_exp_time = 48 * 60 * 60 # 48 hours
 
-JWTSessions.token_store = :redis, { redis_url: ENV.fetch("REDISCLOUD_URL", nil) }
+JWTSessions.token_store = :redis, { redis_url: ENV.fetch("REDIS_URL", nil) }
