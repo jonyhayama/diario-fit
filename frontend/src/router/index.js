@@ -1,23 +1,81 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+
+// layouts
+import dashboardLayout from "../views/layouts/dashboard.vue";
+import publicLayout from "../views/layouts/public";
+
+// views
 import Home from '../views/Home.vue';
+
+// store
+import store from "../store";
+
+const publicRoutes = [
+  {
+    path: "/home",
+    name: "home",
+    alias: "/",
+    component: Home
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+];
+
+const dashboardRoutes = [
+  {
+    path: 'dashboard',
+    name: 'dashboard',
+    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+  },
+];
+
+const publicGuard = async (to, from, next) => {
+  if (store.getters["authentication/status"] === "idle") {
+    await store.dispatch("authentication/checkAuthentication");
+      
+    return publicGuard(to, from, next);
+  }
+
+  if (store.getters["authentication/isSignedIn"]) {
+    return next({ name: 'dashboard' });
+  }
+
+  return next();
+}
+
+const dashboardRoutesGuard = async (to, from, next) => {
+  if (store.getters["authentication/status"] === "idle") {
+    await store.dispatch("authentication/checkAuthentication");
+      
+    return dashboardRoutesGuard(to, from, next);
+  }
+
+  if (!store.getters["authentication/isSignedIn"]) {
+    return next({ path: '/' });
+  }
+  
+  return next();
+};
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    component: publicLayout,
+    children: publicRoutes,
+    beforeEnter: publicGuard
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-  },
+    path: '/app',
+    component: dashboardLayout,
+    children: dashboardRoutes,
+    beforeEnter: dashboardRoutesGuard
+  }
 ];
 
 const router = new VueRouter({
