@@ -6,7 +6,7 @@ import dashboardLayout from "../views/layouts/dashboard.vue";
 import publicLayout from "../views/layouts/public";
 
 // views
-import Home from '../views/Home.vue';
+import Home from '../views/public/Home.vue';
 
 // store
 import store from "../store";
@@ -21,7 +21,7 @@ const publicRoutes = [
   {
     path: '/about',
     name: 'about',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/public/About.vue'),
   },
 ];
 
@@ -29,7 +29,7 @@ const dashboardRoutes = [
   {
     path: 'dashboard',
     name: 'dashboard',
-    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+    component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard/index.vue'),
   },
 ];
 
